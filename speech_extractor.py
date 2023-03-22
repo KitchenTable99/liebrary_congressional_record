@@ -14,14 +14,20 @@ class Speech:
 
     @staticmethod
     def get_special_bioguide(name):
-        if 'The SPEAKER pro tempore' in name:
-            return 'SpeakerProTem'
-        elif 'The ACTING PRESIDENT pro tempore' in name:
-            return 'ActingPresProTem'
+        if 'VICE PRESIDENT' in name:
+            return 'VicePresident'
         elif 'The PRESIDING OFFICER' in name:
             return 'PresidingOfficer'
+        elif 'The ACTING CHAIR' in name:
+            return 'ActingChair'
         elif 'The SPEAKER' in name:
             return 'Speaker'
+        elif 'The SPEAKER pro tempore' in name:
+            return 'SpeakerProTem'
+        elif 'The PRESIDENT pro tempore' in name:
+            return 'PresProTem'
+        elif 'The ACTING PRESIDENT pro tempore' in name:
+            return 'ActingPresProTem'
         else:
             return None
 
