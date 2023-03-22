@@ -45,7 +45,7 @@ class PartialCongressDay:
         padded_day = day.rjust(2, '0')
 
         date = datetime.strptime(f'{month} {padded_day} {year}', '%B %d %Y')
-        logging.info(f'Parsed date as: {date}')
+        logging.debug(f'Parsed date as: {date}')
 
         return int(date.timestamp())
 
