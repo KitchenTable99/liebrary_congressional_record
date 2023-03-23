@@ -1,10 +1,11 @@
 import json
 from datetime import datetime
 import logging
-from typing import List, Dict, Optional
+from typing import List, Dict
 from dataclasses import dataclass
 
 TEST_JSON = './2017/CREC-2017-11-15/json/CREC-2017-11-15-pt1-PgH9268-3.json'
+
 
 @dataclass
 class Speech:
@@ -16,9 +17,13 @@ class Speech:
     def get_special_bioguide(name):
         if 'VICE PRESIDENT' in name:
             return 'VicePresident'
+        elif 'The PRESIDENT' in name:
+            return 'President'
         elif 'The PRESIDING OFFICER' in name:
             return 'PresidingOfficer'
-        elif 'The ACTING CHAIR' in name:
+        elif 'The CHAIR' in name:
+            return 'ActingChair'
+        elif 'The Acting CHAIR' in name or 'The ACTING CHAIR' in name:
             return 'ActingChair'
         elif 'The SPEAKER' in name:
             return 'Speaker'
@@ -30,7 +35,6 @@ class Speech:
             return 'ActingPresProTem'
         else:
             return None
-
 
 
 class PartialCongressDay:
@@ -66,7 +70,6 @@ class PartialCongressDay:
 
         return 0 if chamber == 'House' else 1
 
-
     def get_speeches(self) -> List[Speech]:
         "Returns a list of Speech objects representing each speech for the partial congressional day"
         json_content = self.extract_field('content', self.json_data)
@@ -99,7 +102,6 @@ class PartialCongressDay:
             raise ValueError(f'{field} field missing from {self.file_path}')
 
         return field_content
-
 
 
 def main():

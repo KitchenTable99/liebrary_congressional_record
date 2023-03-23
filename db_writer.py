@@ -28,7 +28,7 @@ def create_tables(conn: sqlite3.Connection) -> None:
                 content          TEXT,
                 FOREIGN KEY(speaker_bioguide) REFERENCES speakers(bioguide)
                 ) """)
-    
+
 def insert_into_speaker_table(speeches: List[Speech], conn: sqlite3.Connection) -> None:
     data = [(speech.speaker_bioguide, speech.speaker_name) for speech in speeches]
     with conn:
@@ -48,7 +48,7 @@ def insert_into_speeches_table(speeches: List[Speech], date: int, chamber: int, 
 
 
 def main():
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.CRITICAL)
     conn = get_connection(testing=False)
     create_tables(conn)
 
@@ -64,7 +64,7 @@ def main():
             insert_into_speaker_table(speeches, conn)
             insert_into_speeches_table(speeches, date, chamber, conn)
 
-    for row in conn.cursor().execute("SELECT * FROM speeches"):
+    for row in conn.cursor().execute("SELECT * FROM speakers WHERE bioguide IS NULL"):
         print(row)
 
     conn.close()
