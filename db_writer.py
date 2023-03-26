@@ -42,18 +42,19 @@ def insert_into_speeches_table(speeches: List[Speech], date: int, chamber: int, 
     content = (speech.content for speech in speeches)
 
     data = list(zip(repeated_date, speaker_bioguide, repeated_chamber, content))
+    if data == []:
+        return
 
     with conn:
-        conn.executemany("INSERT OR IGNORE INTO speeches(date, speaker_bioguide, chamber, content) VALUES(?, ?, ?, ?)", data)
+        conn.executemany("INSERT INTO speeches(date, speaker_bioguide, chamber, content) VALUES(?, ?, ?, ?)", data)
 
 
 def main():
-    logging.basicConfig(level=logging.CRITICAL)
+    logging.basicConfig(level=logging.WARNING)
     conn = get_connection(testing=False)
     create_tables(conn)
 
     all_files = glob.glob('./*/**', recursive=True)
-    # for file in all_files[:11]:
     for file in all_files:
         if '.json' in file:
             pdc = PartialCongressDay(file)
@@ -64,12 +65,10 @@ def main():
             insert_into_speaker_table(speeches, conn)
             insert_into_speeches_table(speeches, date, chamber, conn)
 
-    for row in conn.cursor().execute("SELECT * FROM speakers WHERE bioguide IS NULL"):
-        print(row)
+    # for row in conn.cursor().execute("SELECT * FROM speakers WHERE bioguide IS NULL"):
+    #     print(row)
 
     conn.close()
-
-
 
 
 if __name__ == "__main__":

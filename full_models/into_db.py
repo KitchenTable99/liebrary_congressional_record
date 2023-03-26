@@ -29,7 +29,7 @@ def write_speeches(labeled_speeches, conn, table):
 
 
 def main():
-    conn = get_conn()
+    conn = get_conn(testing=False)
     model_name = sys.argv[1]
     model = Top2Vec.load(f'{model_name}.model')
 
@@ -43,5 +43,5 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     main()
