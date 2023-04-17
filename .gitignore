@@ -3,6 +3,7 @@
 *.zip
 2017/*
 wandb/*
+.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
